@@ -70,7 +70,7 @@ export default function App() {
 
   const addTask = () => {
     if (!text.trim()) {
-      showToast('Digite algo para adicionar uma tarefa!');
+      showToast('Enter a task first!');
       return;
     }
     const newTask: Task = {
@@ -82,7 +82,7 @@ export default function App() {
     };
     setTasks([newTask, ...tasks]);
     setText('');
-    showToast('Tarefa adicionada com sucesso!');
+    showToast('Task added successfully!');
   };
 
   const toggleDone = (id: number) => {
@@ -90,12 +90,12 @@ export default function App() {
       task.id === id ? { ...task, done: !task.done } : task
     ));
     const task = tasks.find(t => t.id === id);
-    showToast(task?.done ? 'Tarefa marcada como pendente' : 'Tarefa concluída! 🎉');
+    showToast(task?.done ? 'Task marked as pending' : 'Task completed! 🎉');
   };
 
   const deleteTask = (id: number) => {
     setTasks(tasks.filter(task => task.id !== id));
-    showToast('Tarefa removida!');
+    showToast('Task removed!');
   };
 
   const toggleImportant = (id: number) => {
@@ -103,7 +103,7 @@ export default function App() {
       task.id === id ? { ...task, important: !task.important } : task
     ));
     const task = tasks.find(t => t.id === id);
-    showToast(task?.important ? 'Marcada como normal' : 'Tarefa importante! ⚡');
+    showToast(task?.important ? 'Priority removed' : 'Task marked as important! ⚡');
   };
 
   const filteredTasks = tasks.filter(task => {
@@ -120,7 +120,7 @@ export default function App() {
 
   const saveEdit = (id: number) => {
     if (!editText.trim()) {
-      showToast('A tarefa não pode ficar vazia!');
+      showToast('A task cannot be empty!');
       return;
     }
     setTasks(tasks.map(task => 
@@ -128,7 +128,7 @@ export default function App() {
     ));
     setEditingId(null);
     setEditText('');
-    showToast('Tarefa atualizada!');
+    showToast('Task updated!');
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -152,7 +152,7 @@ export default function App() {
 
   const clearCompleted = () => {
     setTasks(tasks.filter(task => !task.done));
-    showToast('Tarefas concluídas removidas!');
+    showToast('Completed tasks removed!');
   };
 
   return (
@@ -163,12 +163,12 @@ export default function App() {
           <button 
             className={styles.toggleTheme} 
             onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-            aria-label="Alternar tema"
+            aria-label="Toggle theme"
           >
             {theme === 'light' ? <FaMoon /> : <FaSun />}
           </button>
         </div>
-        <p className={styles.subtitle}>Domine suas tarefas com simplicidade</p>
+        <p className={styles.subtitle}>Master your tasks with ease</p>
       </div>
 
       <div className={styles.inputContainer}>
@@ -177,11 +177,11 @@ export default function App() {
             value={text} 
             onChange={(e) => setText(e.target.value)} 
             onKeyDown={handleKeyDown}
-            placeholder="O que precisa ser feito?" 
-            aria-label="Adicionar nova tarefa"
+            placeholder="What needs to be done?" 
+            aria-label="Add a new task"
             className={styles.taskInput}
           />
-          <button onClick={addTask} aria-label="Adicionar" className={styles.addButton}>
+          <button onClick={addTask} aria-label="Add" className={styles.addButton}>
             <FaPlus />
           </button>
         </div>
@@ -196,17 +196,17 @@ export default function App() {
             </div>
             <div className={styles.stat}>
               <span className={styles.statNumber}>{completedTasks}</span>
-              <span className={styles.statLabel}>Concluídas</span>
+              <span className={styles.statLabel}>Completed</span>
             </div>
             <div className={styles.stat}>
               <span className={styles.statNumber}>{importantTasks}</span>
-              <span className={styles.statLabel}>Importantes</span>
+              <span className={styles.statLabel}>Important</span>
             </div>
           </div>
           
           <div className={styles.progressSection}>
             <div className={styles.progressHeader}>
-              <span>Progresso</span>
+              <span>Progress</span>
               <span>{completionPercentage}%</span>
             </div>
             <div className={styles.progressBar}>
@@ -224,7 +224,7 @@ export default function App() {
           className={styles.filterToggle}
           onClick={() => setShowFilters(!showFilters)}
         >
-          <FaFilter /> Filtros
+          <FaFilter /> Filters
         </button>
         
         {completedTasks > 0 && (
@@ -232,7 +232,7 @@ export default function App() {
             onClick={clearCompleted}
             className={styles.clearButton}
           >
-            <FaRegTrashAlt /> Limpar
+            <FaRegTrashAlt /> Clear
           </button>
         )}
       </div>
@@ -243,25 +243,25 @@ export default function App() {
             onClick={() => {setFilter('all'); setShowFilters(false);}} 
             className={`${styles.filterTab} ${filter === 'all' ? styles.active : ''}`}
           >
-            <FaListUl /> Todas
+            <FaListUl /> All
           </button>
           <button 
             onClick={() => {setFilter('todo'); setShowFilters(false);}} 
             className={`${styles.filterTab} ${filter === 'todo' ? styles.active : ''}`}
           >
-            <FaTasks /> Pendentes
+            <FaTasks /> Pending
           </button>
           <button 
             onClick={() => {setFilter('important'); setShowFilters(false);}} 
             className={`${styles.filterTab} ${filter === 'important' ? styles.active : ''}`}
           >
-            <FaRocket /> Importantes
+            <FaRocket /> Important
           </button>
           <button 
             onClick={() => {setFilter('done'); setShowFilters(false);}} 
             className={`${styles.filterTab} ${filter === 'done' ? styles.active : ''}`}
           >
-            <FaRegCheckCircle /> Concluídas
+            <FaRegCheckCircle /> Completed
           </button>
         </div>
       )}
@@ -284,21 +284,21 @@ export default function App() {
                 </div>
                 <h3>
                   {filter === 'all' 
-                    ? 'Nenhuma tarefa' 
+                    ? 'No tasks yet' 
                     : filter === 'done' 
-                      ? 'Nada concluído' 
+                      ? 'Nothing completed' 
                       : filter === 'important'
-                        ? 'Nada importante'
-                        : 'Tudo feito!'}
+                        ? 'Nothing important'
+                        : 'All done!'}
                 </h3>
                 <p>
                   {filter === 'all' 
-                    ? 'Adicione sua primeira tarefa'
+                    ? 'Add your first task'
                     : filter === 'done'
-                      ? 'Complete tarefas para vê-las aqui'
+                      ? 'Complete tasks to see them here'
                       : filter === 'important'
-                        ? 'Marque tarefas como importantes'
-                        : 'Parabéns! Você está em dia!'}
+                        ? 'Mark tasks as important'
+                        : 'Great job! You are all caught up!'}
                 </p>
               </motion.div>
             ) : (
@@ -319,7 +319,7 @@ export default function App() {
                         className={styles.taskCheckbox}
                         checked={task.done} 
                         onChange={() => toggleDone(task.id)}
-                        aria-label={task.done ? 'Marcar como pendente' : 'Marcar como concluída'}
+                        aria-label={task.done ? 'Mark as pending' : 'Mark as completed'}
                       />
                     </div>
                     
@@ -343,7 +343,7 @@ export default function App() {
                   <div className={styles.taskActions}>
                     <button 
                       onClick={() => toggleImportant(task.id)}
-                      aria-label={task.important ? 'Remover prioridade' : 'Marcar como importante'}
+                      aria-label={task.important ? 'Remove priority' : 'Mark as important'}
                       className={`${styles.actionButton} ${task.important ? styles.importantActive : ''}`}
                     >
                       {task.important ? <FaFire /> : <FaBell />}
@@ -352,7 +352,7 @@ export default function App() {
                     {editingId === task.id ? (
                       <button 
                         onClick={() => saveEdit(task.id)}
-                        aria-label="Salvar edição"
+                        aria-label="Save changes"
                         className={styles.actionButton}
                       >
                         <FaSave />
@@ -360,7 +360,7 @@ export default function App() {
                     ) : (
                       <button 
                         onClick={() => startEdit(task.id, task.text)}
-                        aria-label="Editar tarefa"
+                        aria-label="Edit task"
                         className={styles.actionButton}
                       >
                         <FaEdit />
@@ -369,7 +369,7 @@ export default function App() {
                     <button 
                       onClick={() => deleteTask(task.id)}
                       className={`${styles.actionButton} ${styles.delete}`}
-                      aria-label="Excluir tarefa"
+                      aria-label="Delete task"
                     >
                       <FaRegTrashAlt />
                     </button>
